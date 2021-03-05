@@ -44,6 +44,13 @@ func InitRoutes() *mux.Router {
 			Method:  http.MethodGet,
 			Handler: websockets.ScheduleStatus,
 		},
+
+		Route{
+			Name:    "GetSubscriber",
+			Path:    "/subscribe",
+			Method:  http.MethodPost,
+			Handler: controllers.GetSubscriber,
+		},
 	}
 
 	for _, route := range routes {
