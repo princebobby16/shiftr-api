@@ -1,7 +1,6 @@
 image: golang:latest
 
 variables:
-  # Please edit to your GitLab project
   REPO_NAME: gitlab.com/pbobby001/shiftr
 
 # The problem is that to be able to use go get, one needs to put
@@ -39,7 +38,7 @@ development:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=shiftr-dev-api --api-key=$HEROKU_API_KEY --run='./bin/goose up'
+    - dpl --provider=heroku --app=shiftr-dev-api --api-key=$HEROKU_API_KEY
   environment:
     name: Development
     url: https://shiftr-dev-api.herokuapp.com/
@@ -53,7 +52,7 @@ staging:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=shiftr-staging-api --api-key=$HEROKU_API_KEY --run='./bin/goose up'
+    - dpl --provider=heroku --app=shiftr-staging-api --api-key=$HEROKU_API_KEY
   environment:
     name: Staging
     url: https://shiftr-staging-api.herokuapp.com/
@@ -67,7 +66,7 @@ production:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=shiftr-prod-api --api-key=$HEROKU_API_KEY --run='./bin/goose up'
+    - dpl --provider=heroku --app=shiftr-prod-api --api-key=$HEROKU_API_KEY
   environment:
     name: Production
     url: https://shiftr-prod-api.herokuapp.com/
