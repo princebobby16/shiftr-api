@@ -1,2 +1,9 @@
-1615070833148862600 [Info] Connected to Postgres DB successfully
-1615070833150862000 [Info] Server running on port5379
+1615071875163910100 [Info] Connected to Postgres DB successfully
+1615071875165911000 [Info] Server running on port5379
+1615071918627585300 [Info] {
+	"email": "pbobby001@st.ug.edu.gh",
+	"phone_number": "0505265215"
+}
+1615071918628586200 [Info] {00000000-0000-0000-0000-000000000000 pbobby001@st.ug.edu.gh 0505265215 0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}
+1615071929172671000 [Warn] http: Server closed
+1615071929670699700 [Warn] shutting down

@@ -19,6 +19,17 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(pkg.StandardResponse{
+			Data: pkg.Data{
+				Id:        uuid.NewV4().String(),
+				UiMessage: "something went wrong. contact admin!",
+			},
+			Meta: pkg.Meta{
+				Timestamp:     time.Now(),
+				TransactionId: uuid.NewV4().String(),
+				Status:        "SUCCESS",
+			},
+		})
 		return
 	}
 
@@ -28,6 +39,17 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(pkg.StandardResponse{
+			Data: pkg.Data{
+				Id:        uuid.NewV4().String(),
+				UiMessage: "something went wrong. contact admin!",
+			},
+			Meta: pkg.Meta{
+				Timestamp:     time.Now(),
+				TransactionId: uuid.NewV4().String(),
+				Status:        "SUCCESS",
+			},
+		})
 		return
 	}
 
@@ -38,10 +60,22 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 	_, err = db.Connection.Exec(query, uuid.NewV4().String(), subscriber.Email, subscriber.PhoneNumber)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(pkg.StandardResponse{
+			Data: pkg.Data{
+				Id:        uuid.NewV4().String(),
+				UiMessage: "email or phone number already taken.",
+			},
+			Meta: pkg.Meta{
+				Timestamp:     time.Now(),
+				TransactionId: uuid.NewV4().String(),
+				Status:        "SUCCESS",
+			},
+		})
 		return
 	}
 
+	w.WriteHeader(http.StatusCreated)
 	_ = json.NewEncoder(w).Encode(pkg.StandardResponse{
 		Data: pkg.Data{
 			Id:        uuid.NewV4().String(),
