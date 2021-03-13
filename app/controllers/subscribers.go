@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"github.com/goware/emailx"
 	"github.com/twinj/uuid"
 	"gitlab.com/pbobby001/shiftr/db"
 	"gitlab.com/pbobby001/shiftr/pkg"
@@ -54,6 +55,48 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.Logger.Info(subscriber)
+
+
+	err = emailx.Validate(subscriber.Email)
+	if err != nil {
+		logs.Logger.Error("Email is not valid.")
+
+		if err == emailx.ErrInvalidFormat {
+			logs.Logger.Error("Wrong format.")
+			w.WriteHeader(http.StatusBadRequest)
+			_ = json.NewEncoder(w).Encode(pkg.StandardResponse{
+				Data: pkg.Data{
+					Id:        uuid.NewV4().String(),
+					UiMessage: "Invalid email format",
+				},
+				Meta: pkg.Meta{
+					Timestamp:     time.Now(),
+					TransactionId: uuid.NewV4().String(),
+					Status:        "FAIL",
+				},
+			})
+			return
+		}
+
+		if err == emailx.ErrUnresolvableHost {
+			logs.Logger.Error("Unresolvable host.")
+			w.WriteHeader(http.StatusBadRequest)
+			_ = json.NewEncoder(w).Encode(pkg.StandardResponse{
+				Data: pkg.Data{
+					Id:        uuid.NewV4().String(),
+					UiMessage: "invalid email host",
+				},
+				Meta: pkg.Meta{
+					Timestamp:     time.Now(),
+					TransactionId: uuid.NewV4().String(),
+					Status:        "FAIL",
+				},
+			})
+			return
+		}
+	}
+
+	logs.Logger.Info("Email is valid")
 
 	query := `INSERT INTO shiftr.postit_subscribers(subscriber_id, subscriber_email, subscriber_phone_number) VALUES ($1, $2, $3);`
 
