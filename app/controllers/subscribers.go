@@ -119,11 +119,11 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 	}
 
 	logs.Logger.Info("Email is valid")
-	retry, err := pkg.SendEmail()
+	retry, err := pkg.SendEmail([]string{subscriber.Email})
 	if err != nil {
 		logs.Logger.Error(err)
 		if retry {
-			_, err = pkg.SendEmail()
+			_, err = pkg.SendEmail([]string{subscriber.Email})
 			logs.Logger.Error(err)
 		}
 		w.WriteHeader(http.StatusCreated)

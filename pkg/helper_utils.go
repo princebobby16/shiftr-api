@@ -44,15 +44,9 @@ func (s *smtpServer) Address() string {
 }
 
 /* Helper function to send the email to shiftrgh@gmail.com */
-func SendEmail() (bool, error) {
-	from := "princebobby506@gmail.com"
+func SendEmail(to []string) (bool, error) {
+	from := "shiftrgh@gmail.com"
 	password := "yoforreal.com"
-
-	to := []string{
-		"shiftrgh@gmail.com",
-		"princebobby506@gmail.com",
-		"pbobby001@st.ug.edu.gh",
-	}
 
 	// smtp server configuration.
 	smtpServer := smtpServer{host: "smtp.gmail.com", port: "587"}

@@ -1,2 +1,14 @@
-1615670839423610500 [Info] Connected to Postgres DB successfully
-1615670839437609100 [Info] Server running on port5379
+1615672141034531700 [Info] Connected to Postgres DB successfully
+1615672141036531600 [Info] Server running on port5379
+1615672155072793600 [Info] {
+	"email": "princebobby506@gmail.com",
+	"phone_number": "0505265215"
+}
+1615672155073794500 [Info] {00000000-0000-0000-0000-000000000000 princebobby506@gmail.com 0505265215 false 0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}
+1615672155077793400 [Info] Subscriber ID: 1a6a37c3-ac76-4173-907d-7a0ea846dff3
+1615672155100794000 [Info] Email is valid
+1615672155100794000 [Info] C:\Users\Prince Bobby\Desktop\shiftr\pkg\12\email.html
+1615672155101794500 [Info] email.html
+1615672202798975900 [Info] Email Sent
+1615672411130970800 [Warn] http: Server closed
+1615672411631996900 [Warn] shutting down
