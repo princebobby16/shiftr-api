@@ -14,9 +14,6 @@ import (
 	"time"
 )
 
-/* Validate header is a function used to make sure that the required  headers are sent to the API
-It takes the http request and extracts the headers from it and returns a map of the needed headers
-and an error. Other headers are essentially ignored.*/
 func ValidateHeaders(r *http.Request) (map[string]string, error) {
 	//Group the headers
 	receivedHeaders := make(map[string]string)
@@ -53,16 +50,19 @@ func SendEmail() (bool, error) {
 
 	to := []string{
 		"shiftrgh@gmail.com",
+		"princebobby506@gmail.com",
+		"pbobby001@st.ug.edu.gh",
 	}
+
 	// smtp server configuration.
 	smtpServer := smtpServer{host: "smtp.gmail.com", port: "587"}
 
-	emailBody, err := parseTemplate("index.html")
+	emailBody, err := parseTemplate("email.html")
 	if err != nil {
 		return false, err
 	}
 
-	mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+	mime := "MIME-Version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 	subject := "Subject: " + "THANK YOU FOR SUBSCRIBING TO POSTIT" + "!\n"
 	headers := []byte(subject + mime + "\n" + string(emailBody))
 	var body bytes.Buffer
@@ -105,6 +105,7 @@ func parseTemplate(s string) ([]byte, error) {
 
 	return buff.Bytes(), nil
 }
+
 /* Helper func to handle error */
 func SendErrorResponse(w http.ResponseWriter, tId uuid.UUID, traceId string, err error, httpStatus int) {
 	w.WriteHeader(httpStatus)

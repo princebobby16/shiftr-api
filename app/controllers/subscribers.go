@@ -56,7 +56,6 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 
 	logs.Logger.Info(subscriber)
 
-
 	err = emailx.Validate(subscriber.Email)
 	if err != nil {
 		logs.Logger.Error("Email is not valid.")
