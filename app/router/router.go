@@ -31,13 +31,6 @@ func InitRoutes() *mux.Router {
 			Handler: controllers.HealthCheckHandler,
 		},
 
-		Route{
-			Name:    "Email Notification Service",
-			Path:    "/send-email",
-			Method:  http.MethodPost,
-			Handler: controllers.EmailNotificationService,
-		},
-
 		// websockets
 		Route{
 			Path:    "/shiftr/postit/subscribers",

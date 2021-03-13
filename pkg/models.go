@@ -11,6 +11,7 @@ type (
 		Id uuid.UUID 		`json:"id"`
 		Email string 		`json:"email"`
 		PhoneNumber string 	`json:"phone_number"`
+		EmailSentStatus bool `json:"email_sent_status"`
 		CreateAt time.Time 	`json:"create_at"`
 		UpdatedAt time.Time `json:"updated_at"`
 	}

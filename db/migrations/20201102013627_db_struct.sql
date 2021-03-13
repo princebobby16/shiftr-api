@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS shiftr.postit_subscribers
     subscriber_id uuid UNIQUE NOT NULL,
     subscriber_email character varying(300) UNIQUE NOT NULL,
     subscriber_phone_number character varying(200) UNIQUE NOT NULL,
+    email_sent_status boolean NOT NULL,
     created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (subscriber_id)

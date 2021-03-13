@@ -47,7 +47,7 @@ func (s *smtpServer) Address() string {
 }
 
 /* Helper function to send the email to shiftrgh@gmail.com */
-func SendEmail(req EmailRequest) (bool, error) {
+func SendEmail() (bool, error) {
 	from := "princebobby506@gmail.com"
 	password := "yoforreal.com"
 
@@ -57,24 +57,17 @@ func SendEmail(req EmailRequest) (bool, error) {
 	// smtp server configuration.
 	smtpServer := smtpServer{host: "smtp.gmail.com", port: "587"}
 
-	emailBody, err := parseTemplate("index.html", req)
+	emailBody, err := parseTemplate("index.html")
 	if err != nil {
 		return false, err
 	}
-	logs.Logger.Info(emailBody)
 
 	mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	subject := "Subject: " + "Message From Shiftr Gh Website" + "!\n"
+	subject := "Subject: " + "THANK YOU FOR SUBSCRIBING TO POSTIT" + "!\n"
 	headers := []byte(subject + mime + "\n" + string(emailBody))
 	var body bytes.Buffer
 
 	body.Write(headers)
-
-	//m := gomail.NewMessage()
-	//m.SetHeader("From", from)
-	//m.SetHeader("To", to[1])
-	//m.SetHeader("Subject", subject+mime)
-	//m.SetBody()
 
 	// Authentication.
 	auth := smtp.PlainAuth("", from, password, smtpServer.host)
@@ -90,9 +83,9 @@ func SendEmail(req EmailRequest) (bool, error) {
 	return retry, err
 }
 
-func parseTemplate(s string, req EmailRequest) ([]byte, error) {
+func parseTemplate(s string) ([]byte, error) {
 
-	path, err := filepath.Abs(fmt.Sprintf("cmd/postit/pkg/12/%s", s))
+	path, err := filepath.Abs(fmt.Sprintf("pkg/12/%s", s))
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +98,7 @@ func parseTemplate(s string, req EmailRequest) ([]byte, error) {
 	logs.Logger.Info(t.Name())
 
 	buff := new(bytes.Buffer)
-	err = t.Execute(buff, req)
+	err = t.Execute(buff, nil)
 	if err != nil {
 		return nil, nil
 	}

@@ -96,11 +96,12 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	logs.Logger.Info("Email is valid")
+	query := `INSERT INTO shiftr.postit_subscribers(subscriber_id, subscriber_email, subscriber_phone_number, email_sent_status) VALUES ($1, $2, $3, $4);`
 
-	query := `INSERT INTO shiftr.postit_subscribers(subscriber_id, subscriber_email, subscriber_phone_number) VALUES ($1, $2, $3);`
+	subscriber.Id = uuid.NewV4()
+	logs.Logger.Info("Subscriber ID: ", subscriber.Id)
 
-	_, err = db.Connection.Exec(query, uuid.NewV4().String(), subscriber.Email, subscriber.PhoneNumber)
+	_, err = db.Connection.Exec(query, subscriber.Id, subscriber.Email, subscriber.PhoneNumber, false)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -116,6 +117,37 @@ func GetSubscriber(w http.ResponseWriter, r *http.Request) {
 			},
 		})
 		return
+	}
+
+	logs.Logger.Info("Email is valid")
+	retry, err := pkg.SendEmail()
+	if err != nil {
+		logs.Logger.Error(err)
+		if retry {
+			_, err = pkg.SendEmail()
+			logs.Logger.Error(err)
+		}
+		w.WriteHeader(http.StatusCreated)
+		_ = json.NewEncoder(w).Encode(pkg.StandardResponse{
+			Data: pkg.Data{
+				Id:        uuid.NewV4().String(),
+				UiMessage: "subscription received!, We will contact you when POSTIT is ready!",
+			},
+			Meta: pkg.Meta{
+				Timestamp:     time.Now(),
+				TransactionId: uuid.NewV4().String(),
+				Status:        "SUCCESS",
+			},
+		})
+		return
+	}
+
+	logs.Logger.Info("Email Sent")
+
+	query = `UPDATE shiftr.postit_subscribers SET email_sent_status = $1 WHERE subscriber_id = $2`
+	_, err = db.Connection.Exec(query, true, subscriber.Id)
+	if err != nil {
+		logs.Logger.Info(err)
 	}
 
 	w.WriteHeader(http.StatusCreated)
