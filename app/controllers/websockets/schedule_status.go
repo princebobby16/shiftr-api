@@ -74,6 +74,7 @@ func FetchStatuses(connection *sql.DB) (*pkg.PostItSubscribers, error) {
 			&subscriber.Id,
 			&subscriber.Email,
 			&subscriber.PhoneNumber,
+			&subscriber.EmailSentStatus,
 			&subscriber.CreateAt,
 			&subscriber.UpdatedAt,
 		)
